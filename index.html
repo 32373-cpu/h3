@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiniMax H3 Prompt Lab: how to prompt Hailuo 3.0</title>
+<meta name="description" content="Learn what MiniMax H3 (Hailuo 3.0) is and how to prompt it, with a live prompt builder, camera vocabulary and copy-ready examples.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Manrope:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#070807;--panel:#111311;--panel2:#171a17;--line:#252a24;--lime:#c8ff1a;--text:#f2f5ee;--mute:#8d968a}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--ink);color:var(--text);font:500 16px/1.6 Manrope,system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3,.disp{font-family:'Bricolage Grotesque',Impact,sans-serif;font-weight:800;letter-spacing:-.03em;line-height:.98;margin:0}
+a{color:var(--lime)}
+:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:84px 0 0}
+h2{font-size:clamp(2.2rem,6vw,4.2rem);text-transform:uppercase}
+h2 span{color:var(--lime)}
+.sub{color:var(--mute);max-width:62ch;margin:16px 0 36px;font-size:1.05rem}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:30;background:rgba(7,8,7,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:8px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+.logo{display:inline-flex;align-items:center;gap:10px;font:800 1.05rem 'Bricolage Grotesque';letter-spacing:-.02em;margin-right:auto;color:var(--text);text-decoration:none}
+.logo i{width:13px;height:13px;background:var(--lime);border-radius:4px;transform:rotate(45deg)}
+.nav a.l{color:var(--text);text-decoration:none;font-weight:700;font-size:.92rem;border:1px solid transparent;border-radius:999px;padding:8px 16px}
+.nav a.l:hover{border-color:var(--lime)}
+.nav a.cta{background:var(--lime);color:#0a0c00;border-radius:999px;padding:8px 18px;font-weight:800;text-decoration:none;font-size:.92rem}
+
+/* hero */
+.hero{position:relative;padding:72px 0 20px}
+.hero::before{content:"";position:absolute;inset:-100px -10% auto -10%;height:620px;background:radial-gradient(ellipse at 50% 0,rgba(200,255,26,.22),transparent 62%);pointer-events:none}
+.hero .kick{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:6px 16px;color:var(--mute);font-size:.9rem;position:relative}
+.hero .kick b{color:var(--lime)}
+h1{font-size:clamp(3.4rem,12.5vw,10.5rem);text-transform:uppercase;margin-top:24px;position:relative}
+h1 span{color:var(--lime)}
+.lead{max-width:56ch;color:var(--mute);font-size:1.15rem;margin:24px 0 0;position:relative}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;position:relative}
+.btn{border-radius:999px;padding:15px 28px;font:800 1rem Manrope,sans-serif;cursor:pointer;text-decoration:none;border:1px solid var(--line);background:transparent;color:var(--text)}
+.btn.p{background:var(--lime);color:#0a0c00;border-color:var(--lime)}
+.btn:hover{border-color:var(--lime)}
+.btn.p:hover{filter:brightness(1.08)}
+
+/* hero timeline */
+.tl{position:relative;margin-top:56px;background:var(--panel);border:1px solid var(--line);border-radius:28px;padding:22px 22px 22px 96px;overflow:hidden}
+.lane{position:relative;height:54px;margin-bottom:10px}
+.lane:last-child{margin-bottom:0}
+.lane>em{position:absolute;left:-76px;top:50%;transform:translateY(-50%);font:700 .8rem Manrope;color:var(--mute);font-style:normal;width:64px}
+.blk{position:absolute;top:0;bottom:0;border-radius:14px;background:var(--panel2);border:1px solid var(--line);padding:6px 12px;font-size:.82rem;line-height:1.25;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.blk b{color:var(--lime);font-size:.75rem}
+.blk.cam{background:rgba(200,255,26,.1);border-color:rgba(200,255,26,.35)}
+.wave{position:absolute;inset:6px 0;border-radius:12px;background:repeating-linear-gradient(90deg,var(--lime) 0 3px,transparent 3px 7px);opacity:.55;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.wave.w2{opacity:.3;inset:14px 0;background:repeating-linear-gradient(90deg,var(--text) 0 2px,transparent 2px 6px)}
+.head{position:absolute;top:10px;bottom:10px;left:96px;width:2px;background:var(--lime);box-shadow:0 0 18px 2px var(--lime);animation:play 9s linear infinite}
+@keyframes play{from{left:96px}to{left:calc(100% - 22px)}}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fact{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:24px;padding:26px}
+.fact h3{font-size:1.55rem;margin-bottom:10px}
+.fact p{margin:0;color:var(--mute)}
+.note{margin-top:18px;color:var(--mute);font-size:.9rem;max-width:80ch}
+
+/* builder */
+.builder{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:start}
+.fld{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px 20px;margin-bottom:12px;transition:border-color .15s}
+.fld:focus-within{border-color:var(--lime)}
+.fld label{display:flex;align-items:center;gap:12px;font:800 1.2rem 'Bricolage Grotesque';letter-spacing:-.02em}
+.fld label small{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--lime);color:#0a0c00;font:800 .85rem Manrope}
+.fld p{margin:6px 0 10px;color:var(--mute);font-size:.9rem}
+textarea{width:100%;min-height:74px;resize:vertical;background:#0b0d0b;border:1px solid var(--line);border-radius:14px;color:var(--text);padding:12px 14px;font:500 .95rem/1.5 Manrope,sans-serif}
+textarea:focus{outline:none;border-color:var(--lime)}
+.panel{position:sticky;top:84px;background:var(--panel);border:1px solid var(--line);border-radius:28px;padding:22px}
+.panel h3{font-size:1.5rem;margin-bottom:12px}
+pre{white-space:pre-wrap;word-break:break-word;margin:0;font:500 .92rem/1.6 ui-monospace,Menlo,Consolas,monospace;background:#0b0d0b;border:1px solid var(--line);border-radius:16px;padding:16px;min-height:200px;max-height:58vh;overflow:auto}
+pre .k{color:var(--lime)}
+.bar{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.bar span{color:var(--mute);font-size:.88rem;margin-right:auto}
+.sm{border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--text);padding:9px 18px;font:800 .9rem Manrope,sans-serif;cursor:pointer}
+.sm:hover{border-color:var(--lime)}
+.sm.p{background:var(--lime);color:#0a0c00;border-color:var(--lime)}
+
+/* modes / tips */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:24px;padding:24px;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--lime);transform:translateY(-4px)}
+.card h3{font-size:1.5rem;margin-bottom:6px}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:1px 12px;font-size:.78rem;color:var(--lime);margin-bottom:10px}
+.card p{margin:0 0 10px;color:var(--mute)}
+.card p:last-child{margin:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.do,.dont{border-radius:24px;padding:26px;border:1px solid var(--line);background:var(--panel)}
+.do{border-top:3px solid var(--lime)}
+.dont{border-top:3px solid #ff5a5a}
+.do h3,.dont h3{font-size:1.6rem;margin-bottom:12px}
+ul.c{margin:0;padding-left:20px}
+ul.c li{margin:0 0 10px;color:var(--mute)}
+ul.c b{color:var(--text)}
+
+/* camera chips */
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:10px 20px;background:var(--panel);color:var(--text);font:700 .95rem Manrope,sans-serif;cursor:pointer;transition:all .15s}
+.chip:hover{background:var(--lime);color:#0a0c00;border-color:var(--lime)}
+
+/* examples */
+.ex{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px}
+.ex .card pre{min-height:0;max-height:300px;margin:12px 0 14px;font-size:.84rem}
+.ex .card:hover{transform:none}
+
+footer{margin-top:90px;border-top:1px solid var(--line);padding:36px 0 60px;color:var(--mute);font-size:.88rem}
+footer ul{padding-left:18px;margin:8px 0 18px}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,30px);background:var(--lime);color:#0a0c00;font-weight:800;border-radius:999px;padding:12px 24px;opacity:0;pointer-events:none;transition:all .2s;z-index:50}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:900px){.builder,.two{grid-template-columns:1fr}.panel{position:static}.nav a.l{display:none}}
+@media(max-width:600px){.tl{padding-left:22px}.lane>em{display:none}.head{left:22px}@keyframes play{from{left:22px}to{left:calc(100% - 22px)}}.blk{font-size:.7rem;padding:4px 8px}.blk b{display:none}}
+@media(prefers-reduced-motion:reduce){.head{animation:none;left:35%}*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Main"><div class="wrap">
+  <a class="logo" href="#top"><i></i>H3 Prompt Lab</a>
+  <a class="l" href="#overview">Overview</a><a class="l" href="#builder">Builder</a><a class="l" href="#modes">Modes</a><a class="l" href="#tips">Tips</a><a class="l" href="#camera">Camera</a><a class="l" href="#examples">Examples</a>
+  <a class="cta" href="#builder">Build a prompt</a>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <span class="kick"><b>MiniMax H3</b> · also called Hailuo 3.0</span>
+  <h1>Prompt the<br><span>timeline.</span></h1>
+  <p class="lead">MiniMax H3 makes video and sound in one pass. It works best when your prompt reads like a tiny production plan, not a pile of adjectives. Learn the method, then build your own prompt below.</p>
+  <div class="btns"><a class="btn p" href="#builder">Open the prompt builder</a><a class="btn" href="#overview">What is H3?</a></div>
+
+  <div class="tl" aria-hidden="true">
+    <div class="lane"><em>Action</em>
+      <div class="blk" style="left:0;width:24%"><b>0–2s</b>A drop rolls down the bottle</div>
+      <div class="blk" style="left:25%;width:42%"><b>2–5s</b>Quarter turn toward camera</div>
+      <div class="blk" style="left:68%;width:32%"><b>5–6s</b>Hold on the label</div></div>
+    <div class="lane"><em>Camera</em>
+      <div class="blk cam" style="left:0;width:100%"><b>One move</b>Slow dolly in, small amplitude, focus locked on the label</div></div>
+    <div class="lane"><em>Sound</em><div class="wave"></div><div class="wave w2"></div></div>
+    <span class="head"></span>
+  </div>
+</div></header>
+
+<main class="wrap">
+<section id="overview">
+  <h2>What is <span>H3?</span></h2>
+  <p class="sub">The short version, so you know what you are prompting.</p>
+  <div class="facts">
+    <div class="fact"><h3>One name, two names</h3><p>MiniMax H3 is the official name. Hailuo 3.0 and Hailuo 03 are the same model, named after the Hailuo app. It follows Hailuo 2.3.</p></div>
+    <div class="fact"><h3>Omni-modal input</h3><p>It takes text, images, video and audio in one model. That means you can prompt from words alone or steer it with references.</p></div>
+    <div class="fact"><h3>Video plus sound</h3><p>One generation returns the picture and a stereo audio track together, so you can direct the sound in the same prompt.</p></div>
+    <div class="fact"><h3>Multi-shot aware</h3><p>H3 plans sequences with several shots. A prompt with time-coded beats gives it a clear plan to follow.</p></div>
+  </div>
+  <p class="note">This guide follows community and provider write-ups published after the late-July 2026 launch. Length, resolution and price differ between providers, so check the official MiniMax docs or the platform you use for exact limits.</p>
+</section>
+
+<section id="builder">
+  <h2>The prompt <span>builder</span></h2>
+  <p class="sub">Seven parts, in this order: References, Retention, Scene, Timeline, Camera, Audio, Constraints. Fill what you need, skip what you don't. Your prompt assembles on the right.</p>
+  <div class="builder">
+    <div id="fields"></div>
+    <aside class="panel" aria-label="Your prompt">
+      <h3>Your prompt</h3>
+      <pre id="out" aria-live="polite"></pre>
+      <div class="bar"><span id="wc"></span>
+        <select id="loadsel" class="sm" aria-label="Load an example"></select>
+        <button class="sm" id="clear">Clear</button>
+        <button class="sm p" id="copy">Copy prompt</button></div>
+    </aside>
+  </div>
+</section>
+
+<section id="modes">
+  <h2>Pick your <span>mode</span></h2>
+  <p class="sub">What you write changes with what you attach.</p>
+  <div class="cards">
+    <div class="card"><span class="tag">Text only</span><h3>Text to video</h3><p>Nothing is fixed yet, so describe the opening composition, then the action in order, then the ending state.</p><p>Put the camera and the sound in the prompt too. If you leave them out, H3 decides.</p></div>
+    <div class="card"><span class="tag">1 image</span><h3>Image to video</h3><p>The image already sets the subject, light and palette. Do not describe the picture again.</p><p>Spend your words on what moves, how it moves, and what the camera does.</p></div>
+    <div class="card"><span class="tag">2 images</span><h3>First and last frame</h3><p>Start with a line that says how the frames line up, then a blank line, then the prompt.</p><p>Describe the path between them: the subject's movement, the camera travel and the final composition. One continuous shot usually works best.</p></div>
+    <div class="card"><span class="tag">Image, video, audio</span><h3>Reference mode</h3><p>Name each asset (Image 1, Video 1, Audio 1) and give it one job.</p><p>Say what to copy and what to ignore. If two references fight over the same thing, such as lighting, say which one wins.</p></div>
+  </div>
+</section>
+
+<section id="tips">
+  <h2>Seven <span>rules</span></h2>
+  <p class="sub">The habits that separate a lucky clip from a repeatable one.</p>
+  <div class="two">
+    <div class="do"><h3>Do</h3><ul class="c">
+      <li><b>Prompt the timeline.</b> Time-code the beats in order and state how the shot ends.</li>
+      <li><b>Give every reference a role.</b> "Video 1 gives the hand movement only."</li>
+      <li><b>Say what must stay the same.</b> Face, outfit, product shape, background.</li>
+      <li><b>Use one camera move per shot,</b> with its speed and size.</li>
+      <li><b>Use film words.</b> Dolly in, track left, rack focus, handheld, locked-off, whip pan.</li>
+      <li><b>Direct sound as layers.</b> Dialogue, physical sounds, ambience and music, each on its own line.</li>
+      <li><b>Finish with limits.</b> "No text, no logos, no extra people."</li>
+    </ul></div>
+    <div class="dont"><h3>Don't</h3><ul class="c">
+      <li><b>Pile on adjectives.</b> "Epic, stunning, cinematic" tells the model very little.</li>
+      <li><b>Redescribe the start image.</b> It is already in the frame.</li>
+      <li><b>Chain several camera moves</b> in one shot unless you want cuts. They may be split into separate shots.</li>
+      <li><b>Leave sound blank</b> if it matters. The mix is left to chance.</li>
+      <li><b>Say "use the reference"</b> without saying which part. Name what transfers and what does not.</li>
+      <li><b>Cram 15 seconds with 10 actions.</b> Fewer, clearer beats read better.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="camera">
+  <h2>Camera <span>words</span></h2>
+  <p class="sub">Tap a term to add it to the Camera box in the builder. Add a speed and a size, such as "slow, small amplitude".</p>
+  <div class="chips" id="chips"></div>
+</section>
+
+<section id="examples">
+  <h2>Copy-ready <span>examples</span></h2>
+  <p class="sub">Original examples written for this guide. Copy one, or open it in the builder and change it.</p>
+  <div class="ex" id="ex"></div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <p>Unofficial fan guide. Not affiliated with or endorsed by MiniMax. Write-ups this guide drew on, all worth reading:</p>
+  <ul>
+    <li><a href="https://www.kapwing.com/resources/how-to-prompt-minimax-h3-hailuo-3-0-a-guide-for-ai-video-creators/" target="_blank" rel="noopener">Kapwing: How to prompt MiniMax H3</a></li>
+    <li><a href="https://hackernoon.com/minimax-h3-prompt-guide-how-to-write-better-hailuo-30-video-prompts" target="_blank" rel="noopener">HackerNoon: MiniMax H3 prompt guide</a></li>
+    <li><a href="https://www.krea.ai/blog/10-best-minimax-h3-prompts-for-ai-film-influencers-and-omni-reference-2026" target="_blank" rel="noopener">Krea: 10 best MiniMax H3 prompts</a></li>
+    <li><a href="https://fuser.studio/articles/minimax-h3-prompt-guide" target="_blank" rel="noopener">Fuser: MiniMax H3 prompt guide</a></li>
+  </ul>
+</div></footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const FIELDS = [
+  {k:'references', t:'References', h:'Give each image, video or audio file a role.', p:'Image 1 is the first frame: a matte black perfume bottle on wet slate.'},
+  {k:'retention', t:'Retention', h:'What must stay identical, and what to ignore from each reference.', p:'Keep the bottle shape, label and slate texture exactly as in Image 1.'},
+  {k:'scene', t:'Scene', h:'Setting, light and mood. Skip it if an image already fixes this.', p:'Moody studio, cold blue rim light, a few water drops on the surface.'},
+  {k:'timeline', t:'Timeline', h:'Time-coded beats in order, ending with the final state.', p:'[0–2s] A drop rolls down the bottle. [2–5s] It turns a quarter turn toward camera. [5–6s] Hold on the label.'},
+  {k:'camera', t:'Camera', h:'One move per shot, with speed and size.', p:'Slow dolly in, small amplitude, focus locked on the label.'},
+  {k:'audio', t:'Audio', h:'Dialogue, physical sounds, ambience and music as separate layers.', p:'Soft glass tick, low sub hum. No music, no voice.'},
+  {k:'constraints', t:'Constraints', h:'Close with negatives.', p:'No text overlays, no added logos, no extra objects.'}
+];
+const EX = [
+  {title:'Product reveal', mode:'Image to video', f:{
+    references:'Image 1 is the first frame: a matte black perfume bottle on wet slate.',
+    retention:'Keep the bottle shape, label and slate texture exactly as in Image 1.',
+    scene:'Moody studio, cold blue rim light, a few water drops on the surface.',
+    timeline:'[0–2s] A single drop rolls down the bottle. [2–5s] The bottle turns a quarter turn toward camera. [5–6s] Hold on the label.',
+    camera:'Slow dolly in, small amplitude, focus locked on the label.',
+    audio:'Soft glass tick, low sub hum. No music, no voice.',
+    constraints:'No text overlays, no added logos, no extra objects.'}},
+  {title:'Phone-shot creator video', mode:'Text to video', f:{
+    scene:'Casual phone video in a softly lit bedroom, warm lamp light, slightly shaky selfie framing.',
+    timeline:'[0–1.5s] The creator looks into the lens and smiles. [1.5–5s] She holds up a small candle jar and says one short line. [5–7s] She sniffs it and nods.',
+    camera:'Handheld selfie view, very slight sway, no cuts.',
+    audio:'Her voice clear and close, faint room tone, no music.',
+    constraints:'No captions, no logos, one person only.'}},
+  {title:'Rainy street, one take', mode:'Text to video', f:{
+    scene:'Empty neon-lit street after midnight, steady rain, wet asphalt reflecting pink and teal signs.',
+    timeline:'[0–3s] A figure in a yellow raincoat waits at a crossing. [3–7s] The light turns and they walk away from camera. [7–8s] They stop and look back.',
+    camera:'Locked-off wide at first, then a slow push-in during the walk.',
+    audio:'Rain ambience, one soft shutter rattle, distant traffic hum. No dialogue.',
+    constraints:'No text, no extra people, no logos.'}},
+  {title:'Door transition', mode:'First and last frame', f:{
+    references:'Frame alignment: Image 1 is the first frame, Image 2 is the last frame.',
+    retention:'Keep the character and outfit identical in both frames.',
+    timeline:'The door swings open and she steps through. The room behind her changes from the dim hallway to bright daylight.',
+    camera:'One continuous tracking shot that follows her inside, steady speed.',
+    audio:'Door creak, soft footsteps, a low swell as the light changes.',
+    constraints:'No cuts, no new characters.'}},
+  {title:'Borrow a camera move', mode:'Reference mode', f:{
+    references:'Image 1 is the character. Video 1 gives the camera movement and body rhythm only.',
+    retention:'Do not copy the actor, wardrobe, setting or lighting from Video 1. Use the lighting from Image 1.',
+    scene:'The Image 1 character in a quiet rooftop garden at dusk.',
+    timeline:'[0–4s] She walks the circle once. [4–5s] She stops and turns to look at camera.',
+    camera:'Match the low, circular tracking move from Video 1 with its single turn.',
+    audio:'Wind, distant city hum, soft footsteps.',
+    constraints:'No text, no extra people.'}}
+];
+const CAM = ['dolly in','dolly out','track left','track right','pan left','pan right','tilt up','tilt down','rack focus','handheld','locked-off','whip pan','slow push-in','orbit','crane up','static wide'];
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const val = k => ($('#f-' + k)?.value || '').trim();
+
+function assemble(f, html) {
+  return FIELDS.filter(x => (f[x.k] || '').trim()).map(x => {
+    const line = f[x.k].trim();
+    return html ? `<span class="k">${x.t}:</span> ${esc(line)}` : `${x.t}: ${line}`;
+  }).join(html ? '\n\n' : '\n\n');
+}
+function current() { const f = {}; FIELDS.forEach(x => f[x.k] = val(x.k)); return f; }
+function refresh() {
+  const f = current(), plain = assemble(f, false);
+  $('#out').innerHTML = plain ? assemble(f, true) : '<span style="color:var(--mute)">Start typing in any box and your prompt appears here.</span>';
+  const words = plain ? plain.split(/\s+/).length : 0;
+  $('#wc').textContent = words + (words === 1 ? ' word' : ' words');
+}
+function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 1600); }
+async function copy(text) {
+  try { await navigator.clipboard.writeText(text); toast('Copied to clipboard'); }
+  catch (e) { prompt('Copy your prompt:', text); }
+}
+function setFields(f) { FIELDS.forEach(x => $('#f-' + x.k).value = f[x.k] || ''); refresh(); }
+
+// builder fields
+$('#fields').innerHTML = FIELDS.map((x, i) => `<div class="fld"><label for="f-${x.k}"><small>${i + 1}</small>${x.t}</label><p>${esc(x.h)}</p><textarea id="f-${x.k}" placeholder="${esc(x.p)}"></textarea></div>`).join('');
+FIELDS.forEach(x => $('#f-' + x.k).addEventListener('input', refresh));
+
+// example select + cards
+$('#loadsel').innerHTML = '<option value="">Load an example…</option>' + EX.map((e, i) => `<option value="${i}">${esc(e.title)}</option>`).join('');
+$('#loadsel').addEventListener('change', e => { if (e.target.value !== '') setFields(EX[e.target.value].f); e.target.value = ''; });
+$('#clear').addEventListener('click', () => setFields({}));
+$('#copy').addEventListener('click', () => { const t = assemble(current(), false); t ? copy(t) : toast('Write something first'); });
+
+$('#ex').innerHTML = EX.map((e, i) => `<div class="card"><span class="tag">${esc(e.mode)}</span><h3>${esc(e.title)}</h3><pre>${assemble(e.f, true)}</pre>
+  <div class="bar"><button class="sm" data-open="${i}">Open in builder</button><button class="sm p" data-copy="${i}">Copy</button></div></div>`).join('');
+$('#ex').addEventListener('click', e => {
+  const o = e.target.closest('[data-open]'), c = e.target.closest('[data-copy]');
+  if (o) { setFields(EX[o.dataset.open].f); $('#builder').scrollIntoView(); toast('Loaded into the builder'); }
+  if (c) copy(assemble(EX[c.dataset.copy].f, false));
+});
+
+// camera chips
+$('#chips').innerHTML = CAM.map(c => `<button class="chip" data-cam="${esc(c)}">${esc(c)}</button>`).join('');
+$('#chips').addEventListener('click', e => {
+  const b = e.target.closest('[data-cam]'); if (!b) return;
+  const el = $('#f-camera'), v = el.value.trim();
+  el.value = v ? (/[.,]$/.test(v) ? v + ' ' : v + ', ') + b.dataset.cam : b.dataset.cam;
+  refresh(); toast('Added "' + b.dataset.cam + '" to Camera');
+});
+refresh();
+</script>
+</body>
+</html>
